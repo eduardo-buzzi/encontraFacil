@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EncontraFácil - Sistema de Achados e Perdidos</title>
+        
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+    class="bg-[#f8fafc] text-slate-800 transition-colors duration-200 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    
+    <header
+        class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                <i data-lucide="search" class="w-6 h-6 text-brand-500 stroke-[2.5]"></i>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">EncontraFácil</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button
+                    class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-500">Sobre</button>
+                <button class="flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    <i data-lucide="globe" class="w-4 h-4"></i> PT
+                </button>
+                <button onclick="toggleDarkMode()"
+                    class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+                    title="Alternar Tema">
+                    <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+                <button onclick="navigateTo('login')"
+                    class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm transition">
+                    <i data-lucide="log-in" class="w-4 h-4"></i> Login
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+
+        <section id="view-home" class="view-panel active space-y-12 py-6">
+            <div class="text-center space-y-4 max-w-2xl mx-auto">
+                <div class="inline-flex p-4 bg-brand-50 dark:bg-slate-800 text-brand-500 rounded-full shadow-inner">
+                    <i data-lucide="box" class="w-12 h-12 stroke-[1.5]"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">Encontre seu
+                    item perdido</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm md:text-base">Busque facilmente em achados e
+                    perdidos de escolas, empresas e faculdades</p>
+            </div>
+
+            <div
+                class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 max-w-3xl mx-auto shadow-sm space-y-3">
+                <label
+                    class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Descreva
+                    a categoria do item em uma palavra</label>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-3.5"></i>
+                        <input id="main-search-input" type="text"
+                            placeholder="Ex: mochila, celular, carteira, óculos..."
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-900 dark:text-white">
+                    </div>
+                    <button onclick="executeSearch()"
+                        class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-xl text-sm font-semibold shadow-sm transition">Buscar</button>
+                </div>
+                <span class="text-xs text-slate-400 block mt-1">Deixe em branco para ver todos os itens
+                    disponíveis</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-4">
+                <div
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 text-emerald-500 flex items-center justify-center">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-slate-800 dark:text-white">Busca Inteligente</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Encontre rapidamente seu item
+                        com filtros avançados</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950/30 text-purple-500 flex items-center justify-center">
+                        <i data-lucide="package" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-slate-800 dark:text-white">Centralizado</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Todos os achados em um único
+                        lugar institucional</p>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-slate-800 dark:text-white">Rápido e Seguro</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Processo simples e validado de
+                        recuperação</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-institutions" class="view-panel space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Selecione a Instituição</h2>
+                <p class="text-sm text-slate-500">Buscando por: <span id="search-keyword-badge"
+                        class="text-brand-500 font-medium">Bolsa</span></p>
+            </div>
+
+            <div
+                class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <label class="text-xs font-medium text-slate-400 block mb-1.5">Buscar instituição</label>
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                    <input type="text" placeholder="Digite o nome da instituição..."
+                        class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                </div>
+            </div>
+
+            <p class="text-xs font-medium text-slate-400"><span id="institution-count">6</span> instituição(ões)
+                encontrada(s)</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Universidade Federal
+                            de São Paulo</h3>
+                        <span class="text-xs text-slate-400 block">Universidade</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> São Paulo, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 45 itens</span>
+                    </div>
+                </div>
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Colégio São Paulo</h3>
+                        <span class="text-xs text-slate-400 block">Escola</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> São Paulo, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 23 itens</span>
+                    </div>
+                </div>
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Tech Solutions Ltda
+                        </h3>
+                        <span class="text-xs text-slate-400 block">Empresa</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> São Paulo, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 12 itens</span>
+                    </div>
+                </div>
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Universidade de
+                            Campinas</h3>
+                        <span class="text-xs text-slate-400 block">Universidade</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> Campinas, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 38 itens</span>
+                    </div>
+                </div>
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Instituto Tecnológico
+                        </h3>
+                        <span class="text-xs text-slate-400 block">Escola Técnica</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> São Paulo, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 19 itens</span>
+                    </div>
+                </div>
+                <div onclick="navigateTo('results')"
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer flex gap-4 items-start">
+                    <div class="p-3 bg-blue-50 dark:bg-slate-700 rounded-lg text-brand-500"><i data-lucide="building-2"
+                            class="w-5 h-5"></i></div>
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">Global Corp</h3>
+                        <span class="text-xs text-slate-400 block">Empresa</span>
+                        <div class="flex items-center gap-1 text-xs text-slate-400"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i> São Paulo, SP</div>
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full"><i
+                                data-lucide="package" class="w-3 h-3"></i> 8 itens</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-results" class="view-panel space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Resultados da Busca</h2>
+                <p class="text-xs font-medium text-slate-400">4 item(ns) encontrado(s)</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                <aside
+                    class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <div class="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-700">
+                        <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-500"></i>
+                        <h3 class="font-semibold text-sm text-slate-800 dark:text-white">Filtros</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Descrição do Item</label>
+                            <input type="text" placeholder="Ex: mochila, celular..."
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Instituição</label>
+                            <input type="text" placeholder="Nome da instituição"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Data (De)</label>
+                            <input type="date"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Data (Até)</label>
+                            <input type="date"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Cor</label>
+                            <input type="text" placeholder="Ex: preto, azul..."
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                        </div>
+                    </div>
+                    <button
+                        class="w-full text-center text-xs font-semibold text-brand-500 hover:text-brand-600 pt-2 block">Limpar
+                        Filtros</button>
+                </aside>
+
+                <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"
+                                alt="Mochila" class="w-full h-44 object-cover">
+                            <div class="p-4 space-y-2">
+                                <div class="flex justify-between items-start gap-2">
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Mochila Nike Preta</h4>
+                                    <span
+                                        class="bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Disponível</span>
+                                </div>
+                                <p class="text-xs text-slate-500 line-clamp-2">Mochila preta com logo Nike, encontrada
+                                    no bloco principal.</p>
+                                <div
+                                    class="space-y-1 pt-2 border-t border-slate-50 dark:border-slate-700 text-xs text-slate-400">
+                                    <div class="flex items-center gap-1.5"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5"></i> Prédio A - 2º andar</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="calendar"
+                                            class="w-3.5 h-3.5"></i> 27/05/2026</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="palette"
+                                            class="w-3.5 h-3.5"></i> Cor: Preta</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <button onclick="navigateTo('request')"
+                                class="w-full bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold py-2.5 rounded-lg transition">Solicitar
+                                Recuperação</button>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80"
+                                alt="Celular" class="w-full h-44 object-cover">
+                            <div class="p-4 space-y-2">
+                                <div class="flex justify-between items-start gap-2">
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Celular Samsung Galaxy
+                                    </h4>
+                                    <span
+                                        class="bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Disponível</span>
+                                </div>
+                                <p class="text-xs text-slate-500 line-clamp-2">Smartphone Samsung Galaxy S21, capa azul.
+                                </p>
+                                <div
+                                    class="space-y-1 pt-2 border-t border-slate-50 dark:border-slate-700 text-xs text-slate-400">
+                                    <div class="flex items-center gap-1.5"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5"></i> Biblioteca Central</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="calendar"
+                                            class="w-3.5 h-3.5"></i> 26/05/2026</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="palette"
+                                            class="w-3.5 h-3.5"></i> Cor: Azul</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <button onclick="navigateTo('request')"
+                                class="w-full bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold py-2.5 rounded-lg transition">Solicitar
+                                Recuperação</button>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80"
+                                alt="Carteira" class="w-full h-44 object-cover">
+                            <div class="p-4 space-y-2">
+                                <div class="flex justify-between items-start gap-2">
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Carteira de Couro</h4>
+                                    <span
+                                        class="bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Disponível</span>
+                                </div>
+                                <p class="text-xs text-slate-500 line-clamp-2">Carteira marrom de couro com documentos.
+                                </p>
+                                <div
+                                    class="space-y-1 pt-2 border-t border-slate-50 dark:border-slate-700 text-xs text-slate-400">
+                                    <div class="flex items-center gap-1.5"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5"></i> Cantina</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="calendar"
+                                            class="w-3.5 h-3.5"></i> 24/05/2026</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="palette"
+                                            class="w-3.5 h-3.5"></i> Cor: Marrom</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <button onclick="navigateTo('request')"
+                                class="w-full bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold py-2.5 rounded-lg transition">Solicitar
+                                Recuperação</button>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm opacity-70 flex flex-col justify-between">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80"
+                                alt="Óculos" class="w-full h-44 object-cover">
+                            <div class="p-4 space-y-2">
+                                <div class="flex justify-between items-start gap-2">
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">Óculos Ray-Ban</h4>
+                                    <span
+                                        class="bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Pendente</span>
+                                </div>
+                                <p class="text-xs text-slate-500 line-clamp-2">Óculos de sol preto modelo aviador.</p>
+                                <div
+                                    class="space-y-1 pt-2 border-t border-slate-50 dark:border-slate-700 text-xs text-slate-400">
+                                    <div class="flex items-center gap-1.5"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5"></i> Quadra de esportes</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="calendar"
+                                            class="w-3.5 h-3.5"></i> 23/05/2026</div>
+                                    <div class="flex items-center gap-1.5"><i data-lucide="palette"
+                                            class="w-3.5 h-3.5"></i> Cor: Preto</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <button disabled
+                                class="w-full bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 text-xs font-semibold py-2.5 rounded-lg cursor-not-allowed">Indisponível</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-request" class="view-panel max-w-2xl mx-auto space-y-6">
+            <button onclick="navigateTo('results')"
+                class="flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-slate-600"><i
+                    data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Voltar aos Resultados</button>
+
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Solicitar Recuperação do Item</h2>
+                <p class="text-xs text-slate-500">Preencha as informações abaixo para solicitar a devolução</p>
+            </div>
+
+            <div
+                class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 flex gap-3 text-amber-800 dark:bg-amber-950/20 dark:border-amber-900 dark:text-amber-300">
+                <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-500"></i>
+                <p class="text-xs leading-relaxed"><strong>Importante:</strong> Para comprovar a propriedade do item,
+                    forneça o máximo de detalhes possíveis, como características específicas, conteúdo interno ou o
+                    local/dia em que foi perdido.</p>
+            </div>
+
+            <form onsubmit="submitRequest(event)"
+                class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 block">Descrição / Prova de Posse
+                        *</label>
+                    <textarea required rows="5" placeholder="Descreva detalhes que comprovem que o item é seu..."
+                        class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-3 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white leading-relaxed"></textarea>
+                    <span class="text-[11px] text-slate-400 block">Quanto mais detalhes, mais rápida será a análise da
+                        sua solicitação.</span>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 block">E-mail para Contato
+                        *</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                        <input type="email" required placeholder="seu@email.com"
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500 text-slate-900 dark:text-white">
+                    </div>
+                    <span class="text-[11px] text-slate-400 block">Enviaremos as instruções de retirada para este
+                        e-mail.</span>
+                </div>
+
+                <div
+                    class="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg text-[11px] text-slate-400 border border-slate-100 dark:border-slate-800 leading-relaxed">
+                    Ao enviar esta solicitação, você concorda que suas informações sejam compartilhadas com a
+                    instituição para fins de validação e devolução do item.
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="navigateTo('results')"
+                        class="flex-1 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold py-3 transition text-slate-600 dark:text-slate-300">Cancelar</button>
+                    <button type="submit"
+                        class="flex-1 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-semibold py-3 flex items-center justify-center gap-1.5 shadow-sm transition"><i
+                            data-lucide="send" class="w-3.5 h-3.5"></i> Enviar Solicitação</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="view-success" class="view-panel max-w-md mx-auto py-10">
+            <div
+                class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center space-y-6">
+                <div class="inline-flex p-3 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-500 rounded-full">
+                    <i data-lucide="check-circle" class="w-12 h-12"></i>
+                </div>
+                <div class="space-y-2">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Solicitação Enviada com Sucesso!</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Sua solicitação de recuperação
+                        foi enviada para análise. Você receberá uma resposta no e-mail cadastrado em até 2 dias úteis.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-800 text-left space-y-2">
+                    <h4 class="text-xs font-bold text-brand-500 uppercase tracking-wider">Próximos passos:</h4>
+                    <ol
+                        class="text-xs text-slate-500 dark:text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+                        <li>A instituição analisa sua solicitação</li>
+                        <li>Você recebe um e-mail de confirmação</li>
+                        <li>Se aprovada, instruções de retirada serão enviadas</li>
+                    </ol>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="navigateTo('home')"
+                        class="flex-1 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold py-2.5 transition text-slate-600 dark:text-slate-300">Voltar
+                        ao Início</button>
+                    <button onclick="navigateTo('results')"
+                        class="flex-1 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-semibold py-2.5 transition">Ver
+                        Outros Itens</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-login" class="view-panel max-w-sm mx-auto py-8">
+            <div
+                class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="inline-flex p-3 bg-brand-50 dark:bg-slate-700 text-brand-500 rounded-lg"><i
+                            data-lucide="log-in" class="w-6 h-6"></i></div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Login Institucional</h2>
+                    <p class="text-xs text-slate-400">Acesso exclusivo para instituições cadastradas</p>
+                </div>
+
+                <form onsubmit="event.preventDefault(); alert('Login efetuado (Simulação)!');" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-medium text-slate-500">E-mail institucional</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                            <input type="email" required placeholder="instituicao@exemplo.com"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-medium text-slate-500">Senha</label>
+                            <a href="#" class="text-[11px] text-brand-500 font-medium hover:underline">Esqueceu a
+                                senha?</a>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                            <input id="login-password" type="password" required placeholder="••••••••"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-10 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none">
+                            <button type="button" onclick="togglePasswordVisibility()"
+                                class="absolute right-3 top-3 text-slate-400 hover:text-slate-600">
+                                <i id="password-toggle-icon" data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-semibold py-2.5 shadow-sm transition">Entrar</button>
+                </form>
+
+                <div class="text-center space-y-3 pt-2 border-t border-slate-100 dark:border-slate-700">
+                    <span class="text-xs text-slate-400 block">Não tem uma conta?</span>
+                    <button
+                        class="w-full border border-brand-500 text-brand-500 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold py-2.5 transition">Criar
+                        conta institucional</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer
+        class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-6 text-center transition-colors">
+        <p class="text-xs text-slate-400">&copy; 2026 EncontraFácil - Sistema de Achados e Perdidos</p>
+    </footer>
+
+</body>
+
+</html>
