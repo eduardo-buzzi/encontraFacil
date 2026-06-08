@@ -101,7 +101,7 @@ function gerarSenhaSegura() {
         "Gerando senha...";
 
     const apiKey =
-        "SUA_API_KEY_AQUI";
+        "I6WWWaO0u5tP0nmJbtbIUWWL7Y4eFUYP5jM7IBj2";
 
     fetch(
         "https://api.api-ninjas.com/v1/passwordgenerator?length=12",
@@ -160,7 +160,7 @@ function gerarSenhaAdmin() {
         "Gerando senha...";
 
     const apiKey =
-        "SUA_API_KEY_AQUI";
+        "I6WWWaO0u5tP0nmJbtbIUWWL7Y4eFUYP5jM7IBj2";
 
     fetch(
         "https://api.api-ninjas.com/v1/passwordgenerator?length=12",
