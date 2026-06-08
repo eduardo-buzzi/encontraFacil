@@ -257,21 +257,19 @@ function cadastrarItem(event) {
 ========================================== */
 
 function renderAdminTable() {
-
-    const tbody =
-        document.querySelector(
-            "#tabelaItens tbody"
-        );
-
-    const items = JSON.parse(
-        localStorage.getItem(
-            "encontrafacil_items"
-        )
-    );
+    const tbody = document.querySelector("#tabelaItens tbody");
+    const items = JSON.parse(localStorage.getItem("encontrafacil_items"));
 
     tbody.innerHTML = "";
 
     items.forEach(item => {
+        // Define uma cor de botão diferente baseada no status atual do item
+        let badgeClass = "bg-success text-white"; // Disponível
+        if (item.status === "Em Análise") {
+            badgeClass = "bg-warning text-dark";
+        } else if (item.status === "Devolvido") {
+            badgeClass = "bg-secondary text-white";
+        }
 
         tbody.innerHTML += `
             <tr>
@@ -298,9 +296,16 @@ function renderAdminTable() {
                 </td>
 
                 <td>
-                    <span class="badge bg-success">
-                        ${item.status}
-                    </span>
+                    <div class="dropdown">
+                        <button class="btn btn-sm ${badgeClass} dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ${item.status}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="alterarStatus('${item.id}', 'Disponível')">Disponível</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alterarStatus('${item.id}', 'Em Análise')">Em Análise</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alterarStatus('${item.id}', 'Devolvido')">Devolvido</a></li>
+                        </ul>
+                    </div>
                 </td>
 
                 <td>
@@ -317,12 +322,9 @@ function renderAdminTable() {
 
     $("#tabelaItens").DataTable({
         language: {
-            url:
-                "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
         },
-
         pageLength: 5,
-
         lengthChange: false
     });
 }
@@ -618,4 +620,22 @@ function simulateSave(
     );
 
     event.target.reset();
+}
+
+/* ==========================================
+   ALTERAR STATUS DO ITEM
+========================================== */
+
+function alterarStatus(id, novoStatus) {
+    const items = JSON.parse(localStorage.getItem("encontrafacil_items"));
+    
+    const item = items.find(i => i.id === id);
+    
+    if (item) {
+        item.status = novoStatus;
+        
+        localStorage.setItem("encontrafacil_items", JSON.stringify(items));
+        
+        location.reload();
+    }
 }
