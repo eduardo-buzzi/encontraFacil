@@ -131,25 +131,47 @@
                         3. Criar Admin Local
                     </h6>
 
-                    <form onsubmit="simulateSave(event, 'Usuário criado!')">
+                    <!-- ADMIN -->
+                    <div class="card border-0 shadow-sm item-card p-3 mb-4">
 
-                        <input type="text" required class="form-control bg-input border-0 mb-2" placeholder="Nome">
+                        <h6 class="fw-bold title-text border-bottom pb-2 mb-3">
+                            3. Criar Admin Local
+                        </h6>
 
-                        <input type="email" required class="form-control bg-input border-0 mb-2" placeholder="Email">
+                        <form onsubmit="simulateSave(event, 'Usuário criado!')">
 
-                        <select required class="form-select bg-input border-0 mb-3 dynamic-location-select">
+                            <input type="text" required class="form-control bg-input border-0 mb-2" placeholder="Nome">
 
-                            <option value="">
-                                Selecionar Sede
-                            </option>
+                            <input type="email" required class="form-control bg-input border-0 mb-2"
+                                placeholder="Email">
 
-                        </select>
+                            <select required class="form-select bg-input border-0 mb-2 dynamic-location-select">
 
-                        <button class="btn btn-dark w-100">
-                            Criar Usuário
-                        </button>
+                                <option value="">
+                                    Selecionar Sede
+                                </option>
 
-                    </form>
+                            </select>
+
+                            <!-- SENHA -->
+                            <div class="input-group mb-3">
+
+                                <input type="text" id="senha-admin" readonly class="form-control bg-input border-0"
+                                    placeholder="Senha do usuário">
+
+                                <button type="button" onclick="gerarSenhaAdmin()" class="btn btn-primary">
+
+                                    Gerar
+                                </button>
+
+                            </div>
+
+                            <button class="btn btn-dark w-100">
+                                Criar Usuário
+                            </button>
+
+                        </form>
+                    </div>
                 </div>
 
                 <!-- API NINJAS -->

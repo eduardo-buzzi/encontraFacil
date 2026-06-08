@@ -12,9 +12,11 @@ function buscarCEP() {
             .replace(/\D/g, "");
 
     if (cep.length !== 8) {
+
         alert(
             "Digite um CEP válido."
         );
+
         return;
     }
 
@@ -29,6 +31,7 @@ function buscarCEP() {
     fetch(
         `https://viacep.com.br/ws/${cep}/json/`
     )
+
         .then(response =>
             response.json()
         )
@@ -42,6 +45,7 @@ function buscarCEP() {
                 );
 
                 limparCamposCEP();
+
                 return;
             }
 
@@ -79,8 +83,9 @@ function limparCamposCEP() {
     ).value = "";
 }
 
+
 /* ==========================================
-   API NINJAS
+   API NINJAS - GERAR SENHA
 ========================================== */
 
 function gerarSenhaSegura() {
@@ -90,19 +95,13 @@ function gerarSenhaSegura() {
             "senha-gerada"
         );
 
+    if (!campoSenha) return;
+
     campoSenha.value =
         "Gerando senha...";
 
-    /*
-       IMPORTANTE:
-       Crie sua chave grátis aqui:
-       https://api-ninjas.com
-
-       Depois substitua abaixo
-    */
-
     const apiKey =
-        "I6WWWaO0u5tP0nmJbtbIUWWL7Y4eFUYP5jM7IBj2";
+        "SUA_API_KEY_AQUI";
 
     fetch(
         "https://api.api-ninjas.com/v1/passwordgenerator?length=12",
@@ -119,6 +118,7 @@ function gerarSenhaSegura() {
         .then(response => {
 
             if (!response.ok) {
+
                 throw new Error(
                     "Erro API"
                 );
@@ -137,11 +137,70 @@ function gerarSenhaSegura() {
 
             console.error(error);
 
-            // senha fake fallback
             campoSenha.value =
                 gerarSenhaLocal();
         });
 }
+
+
+/* ==========================================
+   GERAR SENHA PARA ADMIN LOCAL
+========================================== */
+
+function gerarSenhaAdmin() {
+
+    const campoSenha =
+        document.getElementById(
+            "senha-admin"
+        );
+
+    if (!campoSenha) return;
+
+    campoSenha.value =
+        "Gerando senha...";
+
+    const apiKey =
+        "SUA_API_KEY_AQUI";
+
+    fetch(
+        "https://api.api-ninjas.com/v1/passwordgenerator?length=12",
+        {
+            method: "GET",
+
+            headers: {
+                "X-Api-Key":
+                    apiKey
+            }
+        }
+    )
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erro API"
+                );
+            }
+
+            return response.json();
+        })
+
+        .then(data => {
+
+            campoSenha.value =
+                data.random_password;
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            campoSenha.value =
+                gerarSenhaLocal();
+        });
+}
+
 
 /* ==========================================
    FALLBACK SENHA LOCAL
