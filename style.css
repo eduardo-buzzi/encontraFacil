@@ -1,67 +1,245 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Configuração de Fonte Padrão do Sistema */
+/* ================= VARIÁVEIS ================= */
+:root {
+    --brand-color: #2563eb;
+    --brand-hover: #1d4ed8;
+
+    /* Tema Claro */
+    --bg-body-light: #f8fafc;
+    --bg-surface-light: #ffffff;
+    --text-main-light: #0f172a;
+    --text-muted-light: #64748b;
+    --border-color-light: #e2e8f0;
+    --bg-input-light: #f1f5f9;
+}
+
+/* ================= DARK MODE ================= */
+[data-bs-theme="dark"] {
+    --bg-body-light: #0f172a;
+    --bg-surface-light: #1e293b;
+    --text-main-light: #f8fafc;
+    --text-muted-light: #94a3b8;
+    --border-color-light: #334155;
+    --bg-input-light: #0f172a;
+}
+
+/* ================= BASE ================= */
 body {
     font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body-light) !important;
+    color: var(--text-main-light) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Injeção e Extensão de Cores Customizadas para o Tailwind */
-:root {
-    --brand-50: #f0f5ff;
-    --brand-100: #e1e9ff;
-    --brand-500: #2563eb;
-    --brand-600: #1d4ed8;
-    --brand-700: #1e40af;
+/* ================= HEADER / FOOTER ================= */
+.app-header,
+.app-footer {
+    background-color: var(--bg-surface-light) !important;
+    border-color: var(--border-color-light) !important;
 }
 
-/* Classes Utilitárias para injeção dinâmica pelo Tailwind */
-.text-brand-500 {
-    color: var(--brand-500);
+.app-header {
+    height: 60px;
+    z-index: 1000;
 }
 
-.bg-brand-50 {
-    background-color: var(--brand-50);
+/* ================= TEXTOS ================= */
+.title-text,
+.brand-text {
+    color: var(--text-main-light) !important;
 }
 
-.bg-brand-500 {
-    background-color: var(--brand-500);
+.nav-text,
+.text-muted {
+    color: var(--text-muted-light) !important;
 }
 
-.hover\:bg-brand-600:hover {
-    background-color: var(--brand-600);
+.text-brand {
+    color: var(--brand-color);
 }
 
-.border-brand-500 {
-    border-color: var(--brand-500);
+/* ================= INPUTS ================= */
+.bg-input {
+    background-color: var(--bg-input-light) !important;
+    color: var(--text-main-light) !important;
 }
 
-.text-brand-500 {
-    color: var(--brand-500);
+.bg-input::placeholder {
+    color: var(--text-muted-light);
 }
 
-.hover\:text-brand-500:hover {
-    color: var(--brand-500);
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand-color);
+    box-shadow: 0 0 0 0.15rem rgba(37, 99, 235, 0.2);
 }
 
-/* Lógica de Painéis SPA (Single Page Application) */
+/* ================= BOTÕES ================= */
+.btn-brand {
+    background-color: var(--brand-color);
+    color: white;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.btn-brand:hover {
+    background-color: var(--brand-hover);
+    color: white;
+}
+
+.btn-icon {
+    border: none;
+    background: transparent;
+}
+
+/* ================= CARDS ================= */
+.item-card,
+.search-card {
+    background-color: var(--bg-surface-light) !important;
+    border-color: var(--border-color-light) !important;
+    border-radius: 18px;
+    transition: 0.2s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-3px);
+}
+
+/* ================= ÍCONES ================= */
+.icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: rgba(37, 99, 235, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ================= SPA (TELAS) ================= */
 .view-panel {
     display: none;
 }
 
 .view-panel.active {
     display: block;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
-/* Animação suave na troca de telas */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(4px);
+        transform: translateY(8px);
     }
 
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ================= RESULTADOS ================= */
+.card-img-top {
+    object-fit: cover;
+    height: 220px;
+}
+
+.result-item {
+    transition: 0.2s ease;
+}
+
+.result-item:hover {
+    transform: translateY(-4px);
+}
+
+/* ================= TABELA ADMIN ================= */
+.table {
+    color: var(--text-main-light);
+}
+
+.table th {
+    font-weight: 600;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+/* ================= DATATABLES ================= */
+.dataTables_wrapper {
+    color: var(--text-main-light);
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    background-color: var(--bg-input-light);
+    color: var(--text-main-light);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_filter label,
+.dataTables_wrapper .dataTables_length label {
+    color: var(--text-muted-light);
+}
+
+/* Paginação */
+.dataTables_wrapper .page-item .page-link {
+    background-color: var(--bg-surface-light);
+    border-color: var(--border-color-light);
+    color: var(--text-main-light);
+}
+
+.dataTables_wrapper .page-item.active .page-link {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+    color: white;
+}
+
+/* DARK MODE TABELA */
+[data-bs-theme="dark"] .table {
+    --bs-table-color: var(--text-main-light);
+    --bs-table-bg: var(--bg-surface-light);
+    border-color: var(--border-color-light);
+}
+
+[data-bs-theme="dark"] .table-hover>tbody>tr>* {
+    background-color: var(--bg-input-light);
+    color: var(--text-main-light);
+}
+
+/* ================= BADGES ================= */
+.badge {
+    font-size: 0.75rem;
+    padding: 8px 10px;
+}
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 768px) {
+    .search-card {
+        padding: 20px !important;
+    }
+
+    .card-img-top {
+        height: 180px;
+    }
+
+    .app-header .container {
+        gap: 10px;
+    }
+
+    .brand-text {
+        font-size: 1rem;
     }
 }
