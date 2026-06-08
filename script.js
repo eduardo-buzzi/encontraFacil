@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Primeiro ajusta o tema e o atributo do ícone correto
+    initTheme();
+    
+    // 2. Depois renderiza os ícones do Lucide
     lucide.createIcons();
 
-    initTheme();
     initDatabase();
     populateLocations();
 
@@ -441,45 +444,31 @@ function executeSearch() {
 ========================================== */
 
 function initTheme() {
+    const saved = localStorage.getItem("theme");
+    const theme = saved || "light";
+    document.documentElement.setAttribute("data-bs-theme", theme);
 
-    const saved =
-        localStorage.getItem(
-            "theme"
-        );
-
-    const theme =
-        saved || "light";
-
-    document.documentElement
-        .setAttribute(
-            "data-bs-theme",
-            theme
-        );
+    const icon = document.getElementById("theme-icon");
+    if (icon) {
+        icon.setAttribute("data-lucide", theme === "dark" ? "sun" : "moon");
+    }
 }
 
 function toggleDarkMode() {
+    const current = document.documentElement.getAttribute("data-bs-theme");
+    const next = current === "dark" ? "light" : "dark";
 
-    const current =
-        document.documentElement
-            .getAttribute(
-                "data-bs-theme"
-            );
+    document.documentElement.setAttribute("data-bs-theme", next);
+    localStorage.setItem("theme", next);
 
-    const next =
-        current === "dark"
-            ? "light"
-            : "dark";
-
-    document.documentElement
-        .setAttribute(
-            "data-bs-theme",
-            next
-        );
-
-    localStorage.setItem(
-        "theme",
-        next
-    );
+    const icon = document.getElementById("theme-icon");
+    if (icon) {
+        icon.outerHTML = next === "dark" 
+            ? '<i id="theme-icon" data-lucide="sun"></i>' 
+            : '<i id="theme-icon" data-lucide="moon"></i>';
+        
+        lucide.createIcons();
+    }
 }
 
 /* ==========================================
@@ -499,16 +488,26 @@ function handleLogin(event) {
 }
 
 function togglePasswordVisibility() {
+    const input = document.getElementById("login-password");
+    const icon = document.getElementById("password-toggle-icon");
 
-    const input =
-        document.getElementById(
-            "login-password"
-        );
+    if (input.type === "password") {
+        input.type = "text";
+        
+        if (icon) {
+            icon.outerHTML = '<i id="password-toggle-icon" data-lucide="eye-off" style="width: 18px;"></i>';
+        }
+    } else {
+        input.type = "password";
+        
+        if (icon) {
+            icon.outerHTML = '<i id="password-toggle-icon" data-lucide="eye" style="width: 18px;"></i>';
+        }
+    }
 
-    input.type =
-        input.type === "password"
-            ? "text"
-            : "password";
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
 }
 
 /* ==========================================

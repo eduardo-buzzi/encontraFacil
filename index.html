@@ -11,6 +11,11 @@
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+	
+	<script>
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-bs-theme", savedTheme);
+    </script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
