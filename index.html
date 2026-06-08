@@ -35,7 +35,7 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-link text-decoration-none nav-text d-none d-md-block">
+                <button onclick="navigateTo('sobre')" class="btn btn-link text-decoration-none nav-text d-none d-md-block">
                     Sobre
                 </button>
 
@@ -257,6 +257,45 @@
                 </button>
 
             </form>
+        </section>
+		
+		<!-- SOBRE -->
+		<section id="view-sobre" class="view-panel container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    
+                    <div class="card border-0 shadow-sm p-4 item-card mb-4">
+                        <h2 class="fw-bold text-brand mb-4 d-flex align-items-center gap-2">
+                            <i data-lucide="info"></i> Sobre o EncontraFácil
+                        </h2>
+                        
+                        <p class="lead text-muted mb-3" style="line-height: 1.7;">
+                            O BuscaFacil é um sistema que tem como objetivo centralizar e organizar o gerenciamento de itens perdidos e encontrados em um único lugar.
+                        </p>
+                        <p class="text-muted mb-3" style="line-height: 1.7;">
+                            A plataforma permite que setores responsáveis realizem o cadastro dos objetos encontrados, enquanto usuários podem consultar rapidamente os itens disponíveis e solicitar sua recuperação.
+                        </p>
+                    </div>
+
+                    <div class="card border-0 shadow-sm p-4 item-card border-start border-4 border-primary">
+                        <h5 class="fw-bold mb-3 title-text">
+                            Interessado em implementar o sistema em sua sede? Fale conosco!
+                        </h5>
+                        
+                        <div class="d-flex flex-column flex-md-row gap-4 text-muted mt-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <i data-lucide="mail" style="width: 18px; height: 18px;" class="text-brand"></i>
+                                <span>contato@encontrafacil.com</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i data-lucide="phone" style="width: 18px; height: 18px;" class="text-brand"></i>
+                                <span>(47) 99999-9999</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </section>
 
     </main>
